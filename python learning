@@ -1,0 +1,101 @@
+ 
+1 给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回-1
+class Solution:
+    def strStr(self, haystack: str, needle: str) -> int:
+        if needle not in haystack:
+            return -1
+        if needle == "":
+            return 0
+        else:
+            for i in range(len(haystack)-len(needle)+1):
+                if haystack[i:(i+len(needle))] == needle:
+                    return i
+                    break
+注意：特殊情况：h=n，n=‘’ 范围
+        
+                    
+2 给定一个数组 nums 和一个值 val，你需要原地移除所有数值等于 val 的元素，返回移除后数组的新长度。不使用额外空间列表
+class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        for i in range(len(nums)-1,-1,-1):
+            if nums[i] == val:
+                nums.pop(i)
+        return len(nums)
+注意：范围：len(nums)-1,-1,-1   反向防止元素下标的影响
+
+3 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个整数，并返回他们的数组下标。
+class Solution(object):
+    def twoSum(self, nums, target):
+        a = list()    
+        for i in range(len(nums)):
+            if target-nums[i] in nums and i != nums.index(target-nums[i]):
+                a.append(i)
+                a.append(nums.index(target-nums[i]))
+                break
+        return a
+注意：考虑运算复杂度，不使用双循环。 单循环结合目标值
+
+4 给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转
+class Solution:
+    def reverse(self, x: int) -> int:
+        a = list()
+        b = str(x)
+        l = len(b)
+        sum = 0
+        for i in b[::-1]:
+            a.append(i)
+        if a[-1] == '-':
+            for i in range(0,(l-1)):
+                sum += int(a[i])*(10**(l-1-i-1))
+            sum = -sum
+        else:
+            for i in range(0,l):
+                sum += int(a[i])*(10**(l-i-1))
+        if -2**31<sum and sum<(2**31-1):
+            return sum
+        else:
+            return 0
+ 注意：考虑溢出，此处还可直接用字符串反转
+ 5 给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。
+ class Solution:
+    def romanToInt(self, s: str) -> int:
+        l = ['IV','IX','XL','XC','CD','CM']
+        l_v = [4,9,40,90,400,900]
+        k = {'I':1,'V':5,'X':10,'L':50,'C':100,'D':500,'M':1000}
+        sum = 0
+        if s in l:
+            return l_v[l.index(s)]
+        else:
+            
+            for i in range(len(s)):
+                if i < len(s)-1 and k[s[i]] < k[s[i+1]]:
+                    sum -= k[s[i]]
+                else:
+                    sum += k[s[i]]
+            return sum
+ 注意：中间会包含4，9等特殊数，找相邻两数关系
+ 
+编写一个函数来查找字符串数组中的最长公共前缀。如果不存在公共前缀，返回空字符串 ""。
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        l = len(strs)
+        s = list()
+        if l < 1:
+            return ""
+        if l == 1:
+            return strs[0]
+        else:
+            for i in range(l-1):
+                s.append(gg(self,strs[i],strs[i+1]))
+            print(s)
+            return strs[0][:min(s)]            
+def gg(self,s1,s2):
+    l = min(len(s1),len(s2))
+    m = 0
+    for i in range(l):
+        if s1[i] == s2[i]:
+            m += 1
+        else:
+            break
+    return m
+ 注意：特例 len=1，0。循环长度取值。
